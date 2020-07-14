@@ -1,5 +1,10 @@
+FROM cpp-build-base:0.1.0 AS build
+WORKDIR /src
+COPY CMakeLists.txt main.cpp ./
+RUN cmake . && make
 FROM ubuntu:bionic
+WORKDIR /opt/hello-world
+COPY --from=build /src/hello-world ./
+CMD ["./helloworld"]
 
-RUN apt-get update && \
-    apt-get install -y build-essential git cmake autoconf libtool pkg-config
 
